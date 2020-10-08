@@ -18,7 +18,7 @@ On an environment with ROS and catkin properly setup
 
 ```sh
 cd <catkin_data_ws>/src
-git clone @ROBOT_DESCRIPTION_REPOSITORY@ 
+git clone https://github.com/@ROBOT_DESCRIPTION_REPOSITORY@ 
 cd ..
 catkin build
 ```
@@ -31,8 +31,8 @@ If you are on an environment without ROS and catkin, you can still install the r
 
 ```sh
 cd src
-git clone git@gite.lirmm.fr:mc-hrp5/hrp5_p_description.git 
-cd hrp5_p_description
+git clone https://github.com/@ROBOT_REPOSITORY@
+cd @ROBOT_DESCRIPTION_NAME@
 mkdir build
 cd build
 cmake ..
