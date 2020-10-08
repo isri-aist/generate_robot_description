@@ -6,6 +6,7 @@
 ######################################################################
 
 # Load default configuration variables
+echo "-- Sourcing configuration generate_config.sh"
 . generate_config.sh
 
 echo "Running generate_robot_description.sh script from directory `pwd`"

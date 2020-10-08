@@ -27,5 +27,8 @@ export build_dir="$robot_dir/build"                     # path to the build dire
 ## Robot-specific configuration (overrides the above variables)
 if [ -d $robot_dir/generate_config.sh ]
 then
+  echo "-- Sourcing robot-specific configuration $robot_dir/generate_config.sh"
   . $robot_dir/generate_config.sh
+else
+  echo "-- WARNING: no robot-specific configuration $robot_dir/generate_config.sh"
 fi
