@@ -25,7 +25,7 @@ export gen_path="/tmp/${robot_desc_name}"               # path were the robot_de
 export build_dir="$robot_dir/build"                     # path to the build directory
 
 ## Robot-specific configuration (overrides the above variables)
-if [ -d $robot_dir/generate_config.sh ]
+if [ -f $robot_dir/generate_config.sh ]
 then
   echo "-- Sourcing robot-specific configuration $robot_dir/generate_config.sh"
   . $robot_dir/generate_config.sh

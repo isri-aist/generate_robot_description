@@ -1,6 +1,14 @@
 # Description files for @ROBOT_NAME@. 
 
-This package was automatically generated from @ROBOT_REPOSITORY@. Please **do not modify**.
+This package was automatically generated from [@ROBOT_REPOSITORY@](https://github.com/@ROBOT_REPOSITORY@). Please **do not modify manually**.
+
+It contains the following directories:
+- `collada/`: collada description of this robot
+- `urdf/`: urdf description of this robot
+- `meshes/`: dae meshes for all links
+- `convex/`: convex hulls (generated from pointclouds sampled from the dae meshes)
+- `rsdf/`: Special urdf-like format describing surfaces attached to links on the robot
+- `vrml/`: VRML model
 
 ## Installation
 
