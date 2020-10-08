@@ -48,8 +48,8 @@ git add -A
 git commit -m \
 "Generated from $ref_commit_short
 
-Source repository: $robot_repository
-Source commit: $robot_repository/commit/${ref_commit}
+Source repository: https://github.com/$robot_repository
+Source commit: https://github.com/$robot_repository/commit/${ref_commit}
 Source commit: $ref_commit_msg"
 git push origin main
 exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
