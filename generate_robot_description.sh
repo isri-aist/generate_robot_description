@@ -33,8 +33,10 @@ mkdir -p ${gen_path}/urdf
 mkdir -p ${gen_path}/vrml
 
 # Copy generated vrml files
-cp ${build_dir}/model/*.wrl ${gen_path}/vrml
-cp `ls ${robot_dir}/model/*.wrl | grep -v '.in.wrl$'` ${gen_path}/vrml
+echo "-- Copying vrml model files from ${robot_dir}/model to ${gen_path}/vrml"
+rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*.*' ${robot_dir}/model/ ${gen_path}/vrml
+echo "-- Copying generated vrml model files from ${build_dir}/model to ${gen_path}/vrml"
+rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*.*' ${build_dir}/model/ ${gen_path}/vrml
 
 # generate robot model (VRML, collada, urdf and dae meshes)
 function generate_urdf()
