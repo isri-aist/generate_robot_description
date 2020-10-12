@@ -47,29 +47,38 @@ function generate_urdf()
   gen_urdf_path=${gen_path}/urdf/${vrml_model_name}.urdf
   openhrp-export-collada -i ${gen_path}/vrml/${vrml_model} -o ${gen_collada_path} ${openhrp_export_collada_options}
   exit_if_error "Failed to convert VRML model to collada ($vrml_model})"
-  rosrun collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes --mesh_prefix "${urdf_mesh_prefix}/meshes" ${collada_urdf_options}
+  rosrun collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes/${vrml_model_name} --mesh_prefix "${urdf_mesh_prefix}/meshes/${vrml_model_name}" ${collada_urdf_options}
   exit_if_error "Failed to convert collada to urdf (${gen_collada_path})"
+}
+
+function generate_convexes()
+{
+  vrml_model="$1"
+  vrml_model_name="${vrml_model%.*}"
+  # Generate convexes (convert to qhull's pointcloud and compute convex hull file)
+  for mesh in ${gen_path}/meshes/${vrml_model_name}/*.dae
+  do
+    mesh_name=`basename -- "$mesh"`
+    mesh_name="${mesh_name%.*}"
+    echo "-- Generating convex hull for ${mesh}"
+    mkdir -p ${tmp_path}/qc/${vrml_model_name}
+    mkdir -p ${gen_path}/convex/${vrml_model_name}
+    gen_cloud=${tmp_path}/qc/${vrml_model_name}/$mesh_name.qc
+    gen_convex=${gen_path}/convex/${vrml_model_name}/${mesh_name}-ch.txt
+    mesh_sampling ${mesh} ${gen_cloud} --type xyz --samples ${sample_points}
+    exit_if_error "Failed to sample pointcloud from mesh ${mesh} to ${gen_cloud}"
+    qconvex TI ${gen_cloud} TO ${gen_convex} Qt o f
+    exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex}"
+  done
 }
 
 for vrml_model in $models
 do
   echo "-- Generating ${vrml_model}"
   generate_urdf $vrml_model
+  generate_convexes $vrml_model
 done
 
-# Generate convexes (convert to qhull's pointcloud and compute convex hull file)
-for mesh in ${gen_path}/meshes/*.dae
-do
-  mesh_name=`basename -- "$mesh"`
-  mesh_name="${mesh_name%.*}"
-  echo "-- Generating convex hull for ${mesh}"
-  gen_cloud=${tmp_path}/qc/$mesh_name.qc
-  gen_convex=${gen_path}/convex/${mesh_name}-ch.txt
-  mesh_sampling ${mesh} ${gen_cloud} --type xyz --samples ${sample_points}
-  exit_if_error "Failed to sample pointcloud from mesh ${mesh} to ${gen_cloud}"
-  qconvex TI ${gen_cloud} TO ${gen_convex} Qt o f
-  exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex}"
-done
 
 # Copy surface definitions if they exist
 if [ -d $robot_dir/rsdf ]

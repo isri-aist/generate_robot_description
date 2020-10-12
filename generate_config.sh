@@ -15,7 +15,7 @@ export urdf_mesh_prefix="package://${robot_desc_name}"  # Prefix for the mesh pa
 
 ## Generation options
 export models="HRP5Pmain.wrl"                # VRML models to convert to URDF (space-separated)
-export sample_points=10000                   # Number of points to sample on each mesh (used for convex hull generation)
+export sample_points=2000                   # Number of points to sample on each mesh (used for convex hull generation)
 export openhrp_export_collada_options=""     # Extra options for openhrp-export-collada (-a ...)
 export collada_urdf_options="-G -A"          # Extra options for collada_urdf
 
