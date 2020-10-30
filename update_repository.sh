@@ -51,5 +51,5 @@ git commit -m \
 Source repository: https://github.com/$robot_repository
 Source commit: https://github.com/$robot_repository/commit/${ref_commit}
 Source commit: $ref_commit_msg"
-git push origin main
+git push -u origin main
 exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
