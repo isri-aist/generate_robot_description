@@ -101,7 +101,7 @@ function replace_template_variables()
   sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_NAME@#${maintainter_name}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_EMAIL@#${maintainter_email}#g" $1
   sed -i -e"s#@ROBOT_REPOSITORY@#${robot_repository}#g" $1
-  sed -i -e"s#@ROBOT_DESCRIPTION_REPOSITORY@#${robot_repository}#g" $1
+  sed -i -e"s#@ROBOT_DESCRIPTION_REPOSITORY@#${robot_description_repository}#g" $1
 }
 replace_template_variables ${gen_path}/package.xml
 replace_template_variables ${gen_path}/CMakeLists.txt
