@@ -14,7 +14,7 @@ It contains the following directories:
 
 ### ROS environment
 
-On an environment with ROS and catkin properly setup
+On an environment with ROS and catkin properly setup (on ubuntu, you need the `catkin-python-tools` package)
 
 ```sh
 cd <catkin_data_ws>/src
@@ -31,7 +31,7 @@ If you are on an environment without ROS and catkin, you can still install the r
 
 ```sh
 cd src
-git clone https://github.com/@ROBOT_REPOSITORY@
+git clone https://github.com/@ROBOT_DESCRIPTION_REPOSITORY@
 cd @ROBOT_DESCRIPTION_NAME@
 mkdir build
 cd build
