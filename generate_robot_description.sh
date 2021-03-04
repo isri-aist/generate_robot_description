@@ -34,9 +34,9 @@ mkdir -p ${gen_path}/vrml
 
 # Copy generated vrml files
 echo "-- Copying vrml model files from ${robot_dir}/model to ${gen_path}/vrml"
-rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*.*' ${robot_dir}/model/ ${gen_path}/vrml
+rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*' ${robot_dir}/model/ ${gen_path}/vrml
 echo "-- Copying generated vrml model files from ${build_dir}/model to ${gen_path}/vrml"
-rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*.*' ${build_dir}/model/ ${gen_path}/vrml
+rsync -av --prune-empty-dirs --include '*.wrl' --exclude '*' ${build_dir}/model/ ${gen_path}/vrml
 
 # generate robot model (VRML, collada, urdf and dae meshes)
 function generate_urdf()
@@ -95,9 +95,9 @@ function replace_template_variables()
 {
   echo "-- Replacing variables in $1"
   sed -i -e"s#@ROBOT_NAME@#${robot_name}#g" $1
-  sed -i -e"s#@ROBOT_DESCRIPTION_NAME@#${robot_desc_name}#g" $1 
+  sed -i -e"s#@ROBOT_DESCRIPTION_NAME@#${robot_desc_name}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_DESCRIPTION@#${description}#g" $1
-  sed -i -e"s#@ROBOT_DESCRIPTION_VERSION@#${version}#g" $1 
+  sed -i -e"s#@ROBOT_DESCRIPTION_VERSION@#${version}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_NAME@#${maintainter_name}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_EMAIL@#${maintainter_email}#g" $1
   sed -i -e"s#@ROBOT_REPOSITORY@#${robot_repository}#g" $1
