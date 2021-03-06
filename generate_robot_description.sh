@@ -49,6 +49,12 @@ function generate_urdf()
   exit_if_error "Failed to convert VRML model to collada ($vrml_model})"
   rosrun collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes/${vrml_model_name} --mesh_prefix "${urdf_mesh_prefix}/meshes/${vrml_model_name}" ${collada_urdf_options}
   exit_if_error "Failed to convert collada to urdf (${gen_collada_path})"
+  mimic_path=${robot_dir}/mimic/${vrml_model_name}.yaml
+  if [ -f $mimic_path ]
+  then
+    ./scripts/add_mimic.py ${gen_urdf_path} ${mimic_path}
+    exit_if_error "Failed to add mimic joints to urdf (${mimic_path})"
+  fi
 }
 
 function generate_convexes()
