@@ -41,8 +41,8 @@ ref_commit_msg="`git rev-list --format=%B --max-count=1 $ref_commit`"
 
 # Commit and push the changes
 cd ${robot_desc_path}
-git config --local user.name "Arnaud TANGUY (Automated CI update)"
-git config --local user.email "arn.tanguy@gmail.com"
+git config --local user.name "${maintainer_name} (Automated CI update)"
+git config --local user.email "${maintainer_email}"
 git remote set-url --push origin https://${maintainer_username}:${REPO_TOKEN}@github.com/${robot_description_repository}
 git add -A
 git commit -m \

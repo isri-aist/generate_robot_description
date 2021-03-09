@@ -104,8 +104,8 @@ function replace_template_variables()
   sed -i -e"s#@ROBOT_DESCRIPTION_NAME@#${robot_desc_name}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_DESCRIPTION@#${description}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_VERSION@#${version}#g" $1
-  sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_NAME@#${maintainter_name}#g" $1
-  sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_EMAIL@#${maintainter_email}#g" $1
+  sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_NAME@#${maintainer_name}#g" $1
+  sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_EMAIL@#${maintainer_email}#g" $1
   sed -i -e"s#@ROBOT_REPOSITORY@#${robot_repository}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_REPOSITORY@#${robot_description_repository}#g" $1
 }
