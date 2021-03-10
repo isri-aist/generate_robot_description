@@ -9,8 +9,8 @@ export version="0.1.0"
 export maintainer_name="Arnaud TANGUY"
 export maintainer_email="arn.tanguy@gmail.com"
 export maintainer_username="arntanguy"  # Used to clone/push to the robot_description_repository
-export robot_repository="isri-aist/hrp5p" # Github repository name containing the VRML files
-export robot_description_repository="arntanguy/hrp5_p_description" # Github repository name where the generated files will be pushed
+export robot_repository="group/project" # Github repository name containing the VRML files
+export robot_description_repository="group/project" # Github repository name where the generated files will be pushed
 export urdf_mesh_prefix="package://${robot_desc_name}"  # Prefix for the mesh paths in the urdf
 
 # for visualization
