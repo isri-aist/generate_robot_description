@@ -28,8 +28,8 @@ export build_dir="$robot_dir/build"                     # path to the build dire
 # Ci will pull/push the robot description package to update it
 # You need the appropriate token in github secrets and your user-account.
 #
-# Github: https://${maintainer_username}:${GITHUB_TOKEN}@github.com/${robot_description_repository}
-# Gitlab: https://oauth2:${{ secrets.GITLAB_TOKEN }}@gite.lirmm.fr/${robot_description_repository}
+# Github: https://${maintainer_username}:${REPO_TOKEN}@github.com/${robot_description_repository}
+# Gitlab: https://oauth2:${REPO_TOKEN}@gite.lirmm.fr/${robot_description_repository}
 export remote_uri="https://${maintainer_username}:${REPO_TOKEN}@github.com/${robot_description_repository}"
 export repo_uri="https://github.com/$robot_repository"
 export pull_branch="main"

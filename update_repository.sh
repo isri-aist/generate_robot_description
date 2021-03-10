@@ -25,11 +25,10 @@ then
   exit 1
 fi
 
+echo "Cloning from ${remote_uri} (branch ${pull_branch}) to ${robot_desc_path}"
 # Clone robot_description repository
-git clone --branch ${pull_branch} --recursive ${remote_uri} ${robot_desc_path}
+git clone --recursive --single-branch --branch ${pull_branch} "${remote_uri}" ${robot_desc_path}
 exit_if_error "Failed to clone robot_description repository ${robot_description_repository}"
-
-git checkout -b ${push_branch}
 
 # Synchronize files
 rsync -av --delete-after --exclude 'build' --exclude '.git' $gen_path/ ${robot_desc_path}
@@ -45,7 +44,8 @@ ref_commit_msg="`git rev-list --format=%B --max-count=1 $ref_commit`"
 cd ${robot_desc_path}
 git config --local user.name "${maintainer_name} (Automated CI update)"
 git config --local user.email "${maintainer_email}"
-git remote set-url --push origin ${remote_uri}
+git remote set-url --push origin "${remote_uri}"
+git checkout -b ${push_branch}
 git add -A
 git commit -m \
 "Generated from $ref_commit_short
