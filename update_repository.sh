@@ -55,5 +55,5 @@ Source commit: ${repo_uri}/commit/${ref_commit}
 Commit details:
 $ref_commit_msg"
 
-#git push -u origin ${push_branch}
-#exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
+git push -u origin ${push_branch}
+exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
