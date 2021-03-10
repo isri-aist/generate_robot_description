@@ -9,7 +9,7 @@
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
   </group>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hrp5_p_description)/launch/display.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find @ROBOT_DESCRIPTION_NAME@)/launch/display.rviz" />
 
   <rosparam param="robot_module">
    - "@ROBOT_MODULE@"
