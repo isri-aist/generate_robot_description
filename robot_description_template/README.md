@@ -1,4 +1,4 @@
-# Description files for @ROBOT_NAME@. 
+# Description files for @ROBOT_NAME@.
 
 This package was automatically generated from [@ROBOT_REPOSITORY@](https://github.com/@ROBOT_REPOSITORY@). Please **do not modify manually**.
 
@@ -18,12 +18,21 @@ On an environment with ROS and catkin properly setup (on ubuntu, you need the `c
 
 ```sh
 cd <catkin_data_ws>/src
-git clone https://github.com/@ROBOT_DESCRIPTION_REPOSITORY@ 
+git clone https://github.com/@ROBOT_DESCRIPTION_REPOSITORY@
 cd ..
 catkin build
 ```
 
-If your catkin environment is sourced `source <catkin_data_ws>/devel/setup.bash`, the robot model will be available to all ROS tools, and `mc_rtc` robot module. 
+If your catkin environment is sourced `source <catkin_data_ws>/devel/setup.bash`, the robot model will be available to all ROS tools, and `mc_rtc` robot module.
+
+To display the robot, you can use:
+```sh
+roslaunch @ROBOT_DESCRIPTION_NAME@ display_<robot>.launch
+```
+
+Where `<robot>` is the name of the robot variant you want to display.
+- If you have `mc_rtc` and the corresponding robot module installed, you can use the `convexes:=True` (default) and `surfaces:=True` (default) arguments to display the robot convexes and surfaces.
+- Otherwise you may still display the model only with `convexes:=False surfaces:=False`
 
 ### ROS-free environement
 

@@ -13,6 +13,10 @@ export robot_repository="isri-aist/hrp5p" # Github repository name containing th
 export robot_description_repository="arntanguy/hrp5_p_description" # Github repository name where the generated files will be pushed
 export urdf_mesh_prefix="package://${robot_desc_name}"  # Prefix for the mesh paths in the urdf
 
+# for visualization
+export robot_module_name="HRP5P"             # Name of the robot module
+export base_link_frame="base_link"
+
 ## Generation options
 export models="HRP5Pmain.wrl"                # VRML models to convert to URDF (space-separated)
 export sample_points=2000                   # Number of points to sample on each mesh (used for convex hull generation)

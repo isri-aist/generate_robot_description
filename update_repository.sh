@@ -31,7 +31,7 @@ git clone --recursive --single-branch --branch ${pull_branch} "${remote_uri}" ${
 exit_if_error "Failed to clone robot_description repository ${robot_description_repository}"
 
 # Synchronize files
-rsync -av --delete-after --exclude 'build' --exclude '.git' $gen_path/ ${robot_desc_path}
+rsync -av --delete-after --exclude 'build' --exclude 'calib' --exclude '.git' $gen_path/ ${robot_desc_path}
 exit_if_error "Failed to sync generated files with robot_description repository ${robot_desc_path}"
 
 # Get parent commit details
@@ -55,5 +55,5 @@ Source commit: ${repo_uri}/commit/${ref_commit}
 Commit details:
 $ref_commit_msg"
 
-git push -u origin ${push_branch}
-exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
+#git push -u origin ${push_branch}
+#exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"

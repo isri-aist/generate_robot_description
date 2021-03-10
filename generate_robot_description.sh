@@ -108,10 +108,24 @@ function replace_template_variables()
   sed -i -e"s#@ROBOT_DESCRIPTION_MAINTAINER_EMAIL@#${maintainer_email}#g" $1
   sed -i -e"s#@ROBOT_REPOSITORY@#${robot_repository}#g" $1
   sed -i -e"s#@ROBOT_DESCRIPTION_REPOSITORY@#${robot_description_repository}#g" $1
+  sed -i -e"s#@ROBOT_MODULE@#${robot_module_name}#g" $1
+  sed -i -e"s#@URDF_NAME@#${urdf_name}#g" $1
+  sed -i -e"s#@BASE_LINK_FRAME@#${base_link_frame}#g" $1
 }
 replace_template_variables ${gen_path}/package.xml
 replace_template_variables ${gen_path}/CMakeLists.txt
 replace_template_variables ${gen_path}/README.md
+replace_template_variables ${gen_path}/launch/display.rviz
+
+echo "-- Generating launch/ scripts"
+for urdf_file_path in $gen_path/urdf/*.urdf
+do
+  urdf_file_name=`basename -- ${urdf_file_path}`
+  urdf_name="${urdf_file_name%.*}"
+  cp ${gen_path}/launch/display.launch ${gen_path}/launch/display_${urdf_name}.launch
+  replace_template_variables ${gen_path}/launch/display_${urdf_name}.launch
+done
+rm $gen_path/launch/display.launch
 
 echo
 echo "Successfully generated ${robot_desc_name} package in ${gen_path}"
