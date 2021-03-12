@@ -90,7 +90,8 @@ done
 if [ -d $robot_dir/rsdf ]
 then
   echo "-- Adding surface definitions from $robot_dir/rsdf"
-  cp $robot_dir/rsdf/*.rsdf $gen_path/rsdf
+  # Copy rsdf files and delete the ones that no longer exist
+  rsync -av --prune-empty-dirs --include '*.rsdf' --delete ${robot_dir}/rsdf/ ${gen_path}/rsdf
 else
   echo "Warning: no rsdf surface definition in $this_dir"
 fi
