@@ -25,6 +25,19 @@ then
   exit 1
 fi
 
+cd $robot_dir
+branch=`git rev-parse --abbrev-ref HEAD`
+
+git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
+
+if [ $? == "0" ]; then  # branch exists in remote_uri
+    pull_branch="$branch"
+fi
+
+if [ $branch != "master" ] && [ $branch != "main" ]; then
+    push_branch="$branch"
+fi
+
 echo "Cloning from ${remote_uri} (branch ${pull_branch}) to ${robot_desc_path}"
 # Clone robot_description repository
 git clone --recursive --single-branch --branch ${pull_branch} "${remote_uri}" ${robot_desc_path}
