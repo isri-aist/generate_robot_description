@@ -5,6 +5,9 @@
 ## latest generated model by the generate_robot_description.sh script
 ######################################################################
 
+# Add echo for every command that is executed
+set -x
+
 # Robot specific configuration (overrides the default configuration options above)
 . generate_config.sh
 
