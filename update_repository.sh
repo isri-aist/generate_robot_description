@@ -31,7 +31,7 @@ fi
 cd $robot_dir
 branch=`git rev-parse --abbrev-ref HEAD`
 
-git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
+GIT_TRACE=1 GIT_TRACE_CURL=1 git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
 
 if [ $? == "0" ]; then  # branch exists in remote_uri
     pull_branch="$branch"
