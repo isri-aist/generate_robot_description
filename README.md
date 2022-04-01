@@ -14,6 +14,7 @@ This package provides scripts to convert robots defined in VRML to a robot_descr
 - `openhrp-export-collada` from [openhrp3](https://github.com/fkanehiro/openhrp3)
 - `collada_to_urdf` from `ros-<distro>-collada-urdf`
 - [mesh_sampling](https://github.com/arntanguy/mesh_sampling)
+- [blender](https://www.blender.org/)
 - qhull-bin
 
 ## Usage
