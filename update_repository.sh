@@ -5,6 +5,9 @@
 ## latest generated model by the generate_robot_description.sh script
 ######################################################################
 
+# Add echo for every command that is executed
+set -x
+
 # Robot specific configuration (overrides the default configuration options above)
 . generate_config.sh
 
@@ -23,6 +26,19 @@ if [ -d robot_desc_path ]
 then
   echo "ERROR: the robot_description repository has already been cloned in $tmp_path/$robot_desc_name"
   exit 1
+fi
+
+cd $robot_dir
+branch=`git rev-parse --abbrev-ref HEAD`
+
+GIT_TRACE=1 GIT_TRACE_CURL=1 git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
+
+if [ $? == "0" ]; then  # branch exists in remote_uri
+    pull_branch="$branch"
+fi
+
+if [ $branch != "master" ] && [ $branch != "main" ]; then
+    push_branch="$branch"
 fi
 
 echo "Cloning from ${remote_uri} (branch ${pull_branch}) to ${robot_desc_path}"
@@ -55,5 +71,6 @@ Source commit: ${repo_uri}/commit/${ref_commit}
 Commit details:
 $ref_commit_msg"
 
+echo "Pushing into branch ${push_branch} of ${remote_uri}"
 git push -u origin ${push_branch}
 exit_if_error "Failed to push to remote robot_description repository ${robot_description_repository}"
