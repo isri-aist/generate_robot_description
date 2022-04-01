@@ -48,6 +48,10 @@ function generate_urdf()
   openhrp-export-collada -i ${gen_path}/vrml/${vrml_model} -o ${gen_collada_path} ${openhrp_export_collada_options}
   exit_if_error "Failed to convert VRML model to collada ($vrml_model})"
   rosrun collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes/${vrml_model_name} --mesh_prefix "${urdf_mesh_prefix}/meshes/${vrml_model_name}" ${collada_urdf_options}
+  for f in `ls ${gen_path}/meshes/${vrml_model_name}/*.dae`
+  do
+    ./scripts/blender_remove_rotation.sh $f $f
+  done
   exit_if_error "Failed to convert collada to urdf (${gen_collada_path})"
   mimic_path=${robot_dir}/mimic/${vrml_model_name}.yaml
   if [ -f $mimic_path ]
