@@ -36,8 +36,6 @@ export build_dir="$robot_dir/build"                     # path to the build dire
 # Gitlab: https://oauth2:${REPO_TOKEN}@gite.lirmm.fr/${robot_description_repository}
 export remote_uri="https://${maintainer_username}:${REPO_TOKEN}@github.com/${robot_description_repository}"
 export repo_uri="https://github.com/$robot_repository"
-export pull_branch="main"
-export push_branch="main"
 
 ## Robot-specific configuration (overrides the above variables)
 if [ -f $robot_dir/generate_config.sh ]
