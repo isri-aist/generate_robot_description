@@ -20,6 +20,12 @@ exit_if_error()
   fi
 }
 
+exit_with_error()
+{
+  echo "-- FATAL ERROR: $1"
+  exit 1
+}
+
 # Clone the remote
 robot_desc_path="$tmp_path/$robot_desc_name"
 if [ -d robot_desc_path ]
@@ -29,17 +35,31 @@ then
 fi
 
 cd $robot_dir
-branch=`git rev-parse --abbrev-ref HEAD`
 
-GIT_TRACE=1 GIT_TRACE_CURL=1 git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
-
-if [ $? == "0" ]; then  # branch exists in remote_uri
-    pull_branch="$branch"
+# Check if GITHUB_BRANCH_NAME env variable exists
+if [ ! -z "${GITHUB_BRANCH_NAME}" ]; then
+  echo "Using GITHUB_BRANCH_NAME=${GITHUB_BRANCH_NAME}";
+  pull_branch=${GITHUB_BRANCH_NAME}
+else
+  # Check whether we are in detached head state
+  if [ "`git rev-parse --symbolic-full-name HEAD`" == "HEAD" ]; then
+    exit_with_error "cannot determine branch name from a detached head state"
+  else
+    # We are not in detached head state, get current branch name, and check if it exists on the remote
+    branch=`git rev-parse --abbrev-ref HEAD`
+    GIT_TRACE=1 GIT_TRACE_CURL=1 git ls-remote --exit-code --heads $remote_uri $branch > /dev/null
+    if [ $? == "0" ]; then  # branch exists in remote_uri
+        pull_branch="$branch"
+    fi
+  fi
 fi
 
-if [ $branch != "master" ] && [ $branch != "main" ]; then
-    push_branch="$branch"
-fi
+push_branch="$pull_branch"
+
+echo "==========================="
+echo "Pull branch: ${pull_branch}"
+echo "Push branch: ${push_branch}"
+echo "==========================="
 
 echo "Cloning from ${remote_uri} (branch ${pull_branch}) to ${robot_desc_path}"
 # Clone robot_description repository
