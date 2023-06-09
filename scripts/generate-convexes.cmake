@@ -1,0 +1,29 @@
+set(MESH_DIR ${BASE_DIR}/meshes)
+set(CLOUD_DIR ${BASE_DIR}/qc)
+set(CONVEX_DIR ${BASE_DIR}/convex)
+
+file(GLOB_RECURSE MESHES RELATIVE ${MESH_DIR} "${MESH_DIR}/**.dae")
+foreach(MESH ${MESHES})
+  cmake_path(REPLACE_EXTENSION MESH LAST_ONLY qc OUTPUT_VARIABLE CLOUD)
+  cmake_path(REMOVE_EXTENSION MESH LAST_ONLY OUTPUT_VARIABLE CONVEX)
+  set(CLOUD "${CLOUD_DIR}/${CLOUD}")
+  cmake_path(GET CLOUD PARENT_PATH THIS_CLOUD_DIR)
+  file(MAKE_DIRECTORY ${THIS_CLOUD_DIR})
+  execute_process(
+    COMMAND ${MESH_SAMPLING} ${MESH_DIR}/${MESH} ${CLOUD} --type xyz --samples ${NSAMPLES}
+    COMMAND_ERROR_IS_FATAL ANY
+  )
+  set(CONVEX "${CONVEX_DIR}/${CONVEX}-ch.txt")
+  string(REPLACE "_mesh-ch.txt" "-ch.txt" CONVEX "${CONVEX}")
+  cmake_path(GET CONVEX PARENT_PATH THIS_CONVEX_DIR)
+  file(MAKE_DIRECTORY ${THIS_CONVEX_DIR})
+  # qconvex does not seem to like long paths so we try to simplify the work for it
+  cmake_path(RELATIVE_PATH CLOUD BASE_DIRECTORY ${BASE_DIR} OUTPUT_VARIABLE CLOUD)
+  cmake_path(RELATIVE_PATH CONVEX BASE_DIRECTORY ${BASE_DIR} OUTPUT_VARIABLE CONVEX)
+  execute_process(
+    COMMAND ${QCONVEX} TI ${CLOUD} TO ${CONVEX} Qt o f
+    WORKING_DIRECTORY ${BASE_DIR}
+    COMMAND_ERROR_IS_FATAL ANY
+  )
+endforeach()
+file(TOUCH ${STAMP})

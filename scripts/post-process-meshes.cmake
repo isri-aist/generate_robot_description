@@ -1,0 +1,7 @@
+file(GLOB_RECURSE MESHES RELATIVE ${MESH_DIR} "${MESH_DIR}/**.dae")
+foreach(MESH ${MESHES})
+  file(READ ${MESH_DIR}/${MESH} MESH_CONTENT)
+  string(REPLACE "<up_axis>Y_UP</up_axis>" "<up_axis>Z_UP</up_axis>" MESH_CONTENT "${MESH_CONTENT}")
+  file(WRITE ${MESH_DIR}/${MESH} "${MESH_CONTENT}")
+endforeach()
+file(TOUCH ${STAMP})
