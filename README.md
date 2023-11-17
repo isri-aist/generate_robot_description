@@ -8,6 +8,7 @@ This package provides scripts to convert robots defined in VRML to a robot_descr
 - `meshes/`: dae meshes for all links
 - `convex/`: convex hulls (generated from pointclouds sampled from the dae meshes)
 - `rsdf/`: Special urdf-like format describing surfaces attached to links on the robot
+- `legacy_description/`: Put in this folder any existing robot description files that can't be generated easily from VRML. They will be copied as-is to the generated robot_description package
 
 ## Dependencies
 
