@@ -44,8 +44,10 @@ else()
 endif()
 
 foreach(dir convex launch meshes rsdf urdf)
-  install(DIRECTORY ${dir}/
-          DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+  if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${dir})
+    install(DIRECTORY ${dir}/
+            DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+  endif()
 endforeach(dir)
 
 if(${ROS_VERSION} EQUAL 2)
