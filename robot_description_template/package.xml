@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<package>
+<package format="3">
   <name>@ROBOT_DESCRIPTION_NAME@</name>
   <version>@ROBOT_DESCRIPTION_VERSION@</version>
   <description>@ROBOT_DESCRIPTION_DESCRIPTION@</description>
