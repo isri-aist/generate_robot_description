@@ -65,6 +65,7 @@ if [ "$pull_branch" == "master" ]; then
     push_branch="$pull_branch"
   else
     echo "Branch $pull_branch does not exist in $remote_uri, pushing to main instead"
+    pull_branch="main"
     push_branch="main"
   fi
 else
