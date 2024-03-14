@@ -54,7 +54,22 @@ else
   fi
 fi
 
-push_branch="$pull_branch"
+# Special case if there is a master branch in the repository
+# If the master branch already exists in the robot_description repository, we push to this branch
+# Otherwise, we push to main
+if [ "$pull_branch" == "master" ]; then
+  # Check if it exists on the remote
+  GIT_TRACE=1 GIT_TRACE_CURL=1 git ls-remote --exit-code --heads $remote_uri $pull_branch > /dev/null
+  if [ $? == "0" ]; then  # branch master exists in remote_uri
+    echo "Branch $pull_branch exists in $remote_uri, pushing to this branch"
+    push_branch="$pull_branch"
+  else
+    echo "Branch $pull_branch does not exist in $remote_uri, pushing to main instead"
+    push_branch="main"
+  fi
+else
+  push_branch="$pull_branch"
+fi
 
 echo "==========================="
 echo "Pull branch: ${pull_branch}"
