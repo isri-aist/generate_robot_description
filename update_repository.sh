@@ -60,11 +60,10 @@ fi
 # Allow to manually specify whether to use main or master in that case
 # If not provided assume the push branch name is the same as the pull branch
 if [ "$pull_branch" == "main" ] || [ "$pull_branch" == "master" ]; then
-  # check if main_push_branch is not empty
   if [ -z "$main_push_branch" ]; then
-    push_branch="$main_push_branch"
-  else
     push_branch="$pull_branch"
+  else
+    push_branch="$main_push_branch"
   fi
 else
   push_branch="$pull_branch"
