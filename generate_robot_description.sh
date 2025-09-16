@@ -73,14 +73,10 @@ function generate_convexes()
     mesh_name=`basename -- "$mesh"`
     mesh_name="${mesh_name%.*}"
     echo "-- Generating convex hull for ${mesh}"
-    mkdir -p ${tmp_path}/qc/${vrml_model_name}
-    mkdir -p ${gen_path}/convex/${vrml_model_name}
-    gen_cloud=${tmp_path}/qc/${vrml_model_name}/$mesh_name.qc
-    gen_convex=${gen_path}/convex/${vrml_model_name}/${mesh_name}-ch.txt
-    mesh_sampling ${mesh} ${gen_cloud} --type xyz --samples ${sample_points}
-    exit_if_error "Failed to sample pointcloud from mesh ${mesh} to ${gen_cloud}"
-    qconvex TI ${gen_cloud} TO ${gen_convex} Qt o f
-    exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex}"
+    gen_convex_dir=${gen_path}/convex/${vrml_model_name}
+    mkdir -p ${gen_convex_dir}
+    mesh_sampling --in ${mesh} --convex ${gen_convex_dir} --type xyz --samples ${sample_points}
+    exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex_dir}"
   done
 }
 
