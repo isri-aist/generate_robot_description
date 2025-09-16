@@ -21,7 +21,7 @@ exit_if_error()
 }
 
 # Path for the generated robot files
-mkdir -p ${tmp_path}/qc
+mkdir -p ${tmp_path}
 mkdir -p ${gen_path}
 cp -r ${this_dir}/robot_description_template/* $gen_path
 mkdir -p ${gen_path}/cmake
@@ -80,23 +80,42 @@ function generate_convexes()
   done
 }
 
-for vrml_model in $models
-do
-  echo "-- Generating ${vrml_model}"
-  generate_urdf $vrml_model
-  generate_convexes $vrml_model
-done
-
-
-# Copy surface definitions if they exist
+gen_rsdf_dir=$gen_path/rsdf
+mkdir -p $gen_rsdf_dir
+# copy common rsdf files
 if [ -d $robot_dir/rsdf ]
 then
-  echo "-- Adding surface definitions from $robot_dir/rsdf"
-  # Copy rsdf files and delete the ones that no longer exist
-  rsync -av --prune-empty-dirs --include '*.rsdf' --delete ${robot_dir}/rsdf/ ${gen_path}/rsdf
-else
-  echo "Warning: no rsdf surface definition in $this_dir"
+  mkdir -p $gen_path/rsdf
+  echo "-- Adding common surface definitions (legacy) from $robot_dir/rsdf/"
+  cp ${robot_dir}/rsdf/*.rsdf ${gen_rsdf_dir}
 fi
+
+for vrml_model in $models
+do
+  echo "-- Generating robot model ${vrml_model}"
+  generate_urdf $vrml_model
+  generate_convexes $vrml_model
+  
+  vrml_model_name="${vrml_model%.*}"
+  gen_rsdf_model_dir=${gen_path}/rsdf/$vrml_model_name
+  # copy common rsdf files to robot-specific directory
+  if [ -d $robot_dir/rsdf ]
+  then
+    mkdir -p $gen_rsdf_model_dir
+    echo "-- Adding common surface definitions (legacy) from $robot_dir/rsdf/"
+    cp ${robot_dir}/rsdf/*.rsdf $gen_rsdf_model_dir 
+  fi
+
+  # Copy robot-specific rsdf
+  if [ -d $robot_dir/rsdf/$vrml_model_name ]
+  then
+    mkdir -p $gen_rsdf_model_dir
+    echo "-- Adding common surface definitions from $robot_dir/rsdf/"
+    echo "-- Adding robot-specific surface definitions for robot $vrml_model_name from $robot_dir/rsdf/${vrml_model_name}"
+    cp ${robot_dir}/rsdf/${vrml_model_name}/*.rsdf $gen_rsdf_model_dir
+  fi
+  ls -l $gen_rsdf_dir
+done
 
 # Replace template variables
 echo "-- Configuring template variables"
