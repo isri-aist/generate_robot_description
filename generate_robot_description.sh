@@ -49,7 +49,7 @@ function generate_urdf()
   gen_urdf_path=${gen_path}/urdf/${vrml_model_name}.urdf
   openhrp-export-collada -i ${gen_path}/vrml/${vrml_model} -o ${gen_collada_path} ${openhrp_export_collada_options}
   exit_if_error "Failed to convert VRML model to collada ($vrml_model})"
-  rosrun collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes/${vrml_model_name} --mesh_prefix "${urdf_mesh_prefix}/meshes/${vrml_model_name}" ${collada_urdf_options}
+  ros2 run collada_urdf collada_to_urdf ${gen_collada_path} --output_file ${gen_urdf_path} --mesh_output_dir ${gen_path}/meshes/${vrml_model_name} --mesh_prefix "${urdf_mesh_prefix}/meshes/${vrml_model_name}" ${collada_urdf_options}
   for f in `ls ${gen_path}/meshes/${vrml_model_name}/*.dae`
   do
     ./scripts/blender_remove_rotation.sh $f $f
