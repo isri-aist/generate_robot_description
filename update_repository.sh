@@ -77,7 +77,15 @@ echo "==========================="
 echo "Cloning from ${remote_uri} (branch ${pull_branch}) to ${robot_desc_path}"
 # Clone robot_description repository
 git clone --recursive --single-branch --branch ${pull_branch} "${remote_uri}" ${robot_desc_path}
-exit_if_error "Failed to clone robot_description repository ${robot_description_repository}"
+if [ $? -ne 0 ]
+then
+  "Failed to clone robot_description repository ${robot_description_repository} from branch ${pull_branch}"
+  "Retry, assuming the branch does not exist and try to clone from main and then create the branch"
+  git clone --recursive --single-branch "${remote_uri}" ${robot_desc_path}
+  exit_if_error "Failed to clone robot_description repository ${robot_description_repository}"
+  cd ${robot_desc_path}
+  git checkout -b ${push_branch}
+fi
 
 # Synchronize files
 rsync -av --delete-after --exclude 'build' --exclude 'calib' --exclude '.git' --exclude '.github' $gen_path/ ${robot_desc_path}
