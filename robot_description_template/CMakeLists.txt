@@ -43,7 +43,30 @@ else()
   install(FILES package.xml DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}")
 endif()
 
-foreach(dir convex launch meshes rsdf urdf)
+# When building without ROS, we want to patch the urdf files to replace package:// calls with
+# the actual install path for the files
+set(URDF_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/urdf)
+if(${ROS_VERSION} EQUAL 0)
+  set(URDF_DST_DIR ${CMAKE_CURRENT_BINARY_DIR}/patched_urdf)
+  file(MAKE_DIRECTORY ${URDF_DST_DIR})
+
+  file(GLOB URDF_FILES "${URDF_SRC_DIR}/*.urdf")
+  foreach(urdf_file ${URDF_FILES})
+    get_filename_component(urdf_name ${urdf_file} NAME)
+    file(READ ${urdf_file} urdf_content)
+    string(REPLACE "package://hrp2_drc_description" "file://${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}" urdf_content "${urdf_content}")
+    message(STATUS ${urdf_content})
+    file(WRITE ${URDF_DST_DIR}/${urdf_name} "${urdf_content}")
+  endforeach()
+  # Install patched urdf files
+  install(DIRECTORY ${URDF_DST_DIR}/
+          DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf)
+else() # with ROS, install urdf as-is
+  install(DIRECTORY ${URDF_SRC_DIR}/
+            DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endif()
+
+foreach(dir convex launch meshes rsdf)
   if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${dir})
     install(DIRECTORY ${dir}/
             DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
