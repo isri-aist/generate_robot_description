@@ -63,7 +63,7 @@ if(${ROS_VERSION} EQUAL 0)
           DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf)
 else() # with ROS, install urdf as-is
   install(DIRECTORY ${URDF_SRC_DIR}/
-            DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+            DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf)
 endif()
 
 foreach(dir convex launch meshes rsdf)
